@@ -1,2 +1,5 @@
 # muusikoiden-net
-A quick gallery viewer browser extension for muusikoiden.net marketplace.
+
+Lisää "Kaikki kuvat" -linkin muusikoiden.net:in torin kuviin, jonka takaa avautuu mahdollisuus selata kuvia suuremmassa koossa.
+
+![Kaikki kuvat](added_text.jpg)

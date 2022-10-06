@@ -53,21 +53,19 @@ function openPopup(e) {
     destroyPopups();
 
     let index = 0;
-    const currentId = e.currentTarget.parentElement.children[0].id;
     const imageIds = getAllImages(e.currentTarget.parentElement);
 
     // Construct the div
     const div = document.createElement('div');
     div.classList.add('mnet-lightbox');
-    div.id = currentId;
-
-    const imageLink = document.createElement('a');
-    imageLink.classList.add('mnet-light-box-img-link');
-    imageLink.href = setImage(imageIds, index);
 
     const image = document.createElement('img');
     image.classList.add('mnet-lightbox-img');
     image.src = setImage(imageIds, index);
+
+    const indexText = document.createElement('div');
+    indexText.classList.add('mnet-lightbox-index-text');
+    indexText.textContent = `${index+1}/${imageIds.length}`;
 
     const prevButton = document.createElement('a');
     prevButton.classList.add('mnet-lightbox-next-prev-button');
@@ -75,6 +73,7 @@ function openPopup(e) {
     prevButton.addEventListener('click', e => {
         index = getPrevIndex(imageIds, index);
         image.src = setImage(imageIds, index);
+        indexText.textContent = `${index+1}/${imageIds.length}`;
     });
 
     const nextButton = document.createElement('a');
@@ -83,19 +82,20 @@ function openPopup(e) {
     nextButton.addEventListener('click', e => {
         index = getNextIndex(imageIds, index);
         image.src = setImage(imageIds, index);
+        indexText.textContent = `${index+1}/${imageIds.length}`;
     });
 
-    imageLink.appendChild(image);
-
     div.appendChild(prevButton);
-    div.appendChild(imageLink);
+    div.appendChild(image);
     div.appendChild(nextButton);
+    
+    div.appendChild(indexText);
 
     document.body.appendChild(div);
     document.addEventListener('keydown', keyDown);
 }
 
-async function initPage() {
+(async () => {
     addLinksToPopup();
 
     // Detect click outside autocomplete
@@ -106,12 +106,4 @@ async function initPage() {
 
         destroyPopups();
     });
-};
-
-(async () => {
-    if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
-        await initPage();
-    } else {
-        document.addEventListener('DOMContentLoaded', initPage);
-    }
 })();
