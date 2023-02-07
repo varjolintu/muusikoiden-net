@@ -1,5 +1,53 @@
 'use strict';
 
+const ImageBox = {
+    index: 0,
+    indexText: '',
+    image: undefined,
+    imageIds: [],
+
+    create(parentElement) {
+        this.index = 0;
+        this.imageIds = getAllImages(parentElement);
+    
+        this.image = document.createElement('img');
+        this.image.classList.add('mnet-lightbox-img');
+        this.image.src = this.getCurrentImage();
+    
+        this.indexText = document.createElement('div');
+        this.indexText.classList.add('mnet-lightbox-index-text');
+        this.indexText.textContent = this.getIndexText();
+    },
+
+    getCurrentImage() {
+        return `https://muusikoiden.net/dyn/tori/${this.imageIds[this.index]}.jpg`;
+    },
+
+    getIndexText() {
+        return `${this.index+1}/${this.imageIds.length}`;
+    },
+
+    getNextIndex() {
+        return this.index + 1 >= this.imageIds.length ? 0 : this.index + 1;
+    },
+
+    getPrevIndex() {
+        return this.index === 0 ? this.imageIds.length - 1 : this.index - 1;
+    },
+
+    selectNext() {
+        this.index = this.getNextIndex();
+        this.image.src = this.getCurrentImage();
+        this.indexText.textContent = this.getIndexText();
+    },
+    
+    selectPrev() {
+        this.index = this.getPrevIndex();
+        this.image.src = this.getCurrentImage();
+        this.indexText.textContent = this.getIndexText();
+    },
+}
+
 // Get all image ID's from 'onmouseover' attribute.
 function getAllImages(elem) {
     return Array.from(elem.querySelectorAll('span.javascript_show')).map(s => {
@@ -21,18 +69,6 @@ function addLinksToPopup() {
     });
 }
 
-function getPrevIndex(imageIds, index) {
-    return index === 0 ? imageIds.length - 1 : index - 1;
-}
-
-function getNextIndex(imageIds, index) {
-    return index + 1 >= imageIds.length ? 0 : index + 1;
-}
-
-function setImage(imageIds, index) {
-    return `https://muusikoiden.net/dyn/tori/${imageIds[index]}.jpg`;
-}
-
 // Destroys all old popups.
 function destroyPopups() {
     const currentPopups = document.querySelectorAll('.mnet-lightbox');
@@ -46,50 +82,40 @@ function destroyPopups() {
 function keyDown(e) {
     if (e.key === 'Escape') {
        destroyPopups();
+    } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        ImageBox.selectPrev();
+    } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        ImageBox.selectNext();
     }
 }
 
 function openPopup(e) {
     destroyPopups();
-
-    let index = 0;
-    const imageIds = getAllImages(e.currentTarget.parentElement);
-
-    // Construct the div
-    const div = document.createElement('div');
-    div.classList.add('mnet-lightbox');
-
-    const image = document.createElement('img');
-    image.classList.add('mnet-lightbox-img');
-    image.src = setImage(imageIds, index);
-
-    const indexText = document.createElement('div');
-    indexText.classList.add('mnet-lightbox-index-text');
-    indexText.textContent = `${index+1}/${imageIds.length}`;
+    ImageBox.create(e.currentTarget.parentElement);
 
     const prevButton = document.createElement('a');
     prevButton.classList.add('mnet-lightbox-next-prev-button');
     prevButton.textContent = '<';
     prevButton.addEventListener('click', e => {
-        index = getPrevIndex(imageIds, index);
-        image.src = setImage(imageIds, index);
-        indexText.textContent = `${index+1}/${imageIds.length}`;
+        ImageBox.selectPrev();
     });
 
     const nextButton = document.createElement('a');
     nextButton.classList.add('mnet-lightbox-next-prev-button');
     nextButton.textContent = '>';
     nextButton.addEventListener('click', e => {
-        index = getNextIndex(imageIds, index);
-        image.src = setImage(imageIds, index);
-        indexText.textContent = `${index+1}/${imageIds.length}`;
+        ImageBox.selectNext();
     });
 
+    // Construct the div
+    const div = document.createElement('div');
+    div.classList.add('mnet-lightbox');
     div.appendChild(prevButton);
-    div.appendChild(image);
+    div.appendChild(ImageBox.image);
     div.appendChild(nextButton);
-    
-    div.appendChild(indexText);
+    div.appendChild(ImageBox.indexText);
 
     document.body.appendChild(div);
     document.addEventListener('keydown', keyDown);
