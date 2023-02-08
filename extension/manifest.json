@@ -6,7 +6,11 @@
   "author": "Sami Vänttinen",
   "homepage_url": "https://github.com/varjolintu/muusikoiden-net",
   "icons": {
-    "48": "icons/mnet.png"
+    "16": "icons/mnet_16.png",
+    "48": "icons/mnet_48.png",
+    "64": "icons/mnet_64.png",
+    "96": "icons/mnet_96.png",
+    "128": "icons/mnet_128.png"
   },
   "content_scripts": [
     {
