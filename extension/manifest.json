@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "muusikoiden.net",
   "description": "Parempi muusikoiden.net",
-  "version": "0.1",
+  "version": "0.2",
   "author": "Sami Vänttinen",
   "homepage_url": "https://github.com/varjolintu/muusikoiden-net",
   "icons": {
