@@ -1,8 +1,8 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "muusikoiden.net",
   "description": "Parempi muusikoiden.net",
-  "version": "0.2",
+  "version": "0.3",
   "author": "Sami Vänttinen",
   "homepage_url": "https://github.com/varjolintu/muusikoiden-net",
   "icons": {
@@ -16,17 +16,16 @@
     {
       "matches": ["https://muusikoiden.net/tori/*"],
       "js": ["content/content_script.js"],
-      "css": ["css/style.css"],
-      "run_at": "document_idle"
+      "css": ["css/style.css"]
     }
   ],
   "permissions": [
     "activeTab"
   ],
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
         "id": "muusikoiden-net@varjolintu",
-        "strict_min_version": "58.0"
+        "strict_min_version": "109.0"
     }
   }
 }
