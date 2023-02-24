@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "muusikoiden.net",
   "description": "Parempi muusikoiden.net",
-  "version": "0.3",
+  "version": "0.4",
   "author": "Sami Vänttinen",
   "homepage_url": "https://github.com/varjolintu/muusikoiden-net",
   "icons": {
@@ -18,9 +18,6 @@
       "js": ["content/content_script.js"],
       "css": ["css/style.css"]
     }
-  ],
-  "permissions": [
-    "activeTab"
   ],
   "browser_specific_settings": {
     "gecko": {
