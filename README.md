@@ -4,6 +4,7 @@ Lisää "Kaikki kuvat" -linkin muusikoiden.net:in torin kuviin, jonka takaa avau
 
 Selaus hiirellä tai näppäimistön nuolinapeilla. Esc tai klikkaus boksin ulkopuolelle sulkee sen.
 
-Lataa [Firefoxille](https://addons.mozilla.org/fi/firefox/addon/muusikoiden-net/).
+Lataa [Firefoxille](https://addons.mozilla.org/fi/firefox/addon/muusikoiden-net/) ja 
+[Chromelle](https://chrome.google.com/webstore/detail/muusikoidennet/hheenffihkekkedampbkafcchiimdchp).
 
 ![](popup.jpg)
