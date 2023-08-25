@@ -48,24 +48,32 @@ const ImageBox = {
     },
 }
 
-// Get all image ID's from 'onmouseover' attribute.
 function getAllImages(elem) {
-    return Array.from(elem.querySelectorAll('span.javascript_show')).map(s => {
+    const imageArray = Array.from(elem.querySelectorAll('span.javascript_show'));
+    if (imageArray.length === 0) {
+        const href = elem.children[0].href;
+        return [ href.substring(href.lastIndexOf('/') + 1, href.lastIndexOf('.')) ];
+    }
+
+    // Multiple images (ID's from 'onmouseover' attribute)
+    return imageArray.map(s => {
         return s.getAttribute('onmouseover').split(',')[1].trim();
     });
 }
 
 // Searches all image switcers and adds a new link before them.
 function addLinksToPopup() {
-    const switchers = document.querySelectorAll('small.javascript_hide');
+    const switchers = document.querySelectorAll('a.nohover');
     switchers.forEach(s => {
-        const link = document.createElement('a');
-        link.classList.add('mnet-lightbox-link');
-        link.href = '#allImages';
-        link.textContent = 'Kaikki kuvat';
-        link.addEventListener('click', openPopup);
+        if (s.href.includes('/dyn/tori')) {
+            const link = document.createElement('a');
+            link.classList.add('mnet-lightbox-link');
+            link.href = '#allImages';
+            link.textContent = s.parentElement.children.length > 2 ? 'Kaikki kuvat' : 'Näytä kuva';
+            link.addEventListener('click', openPopup);
 
-        s.parentElement.appendChild(link);
+            s.parentElement.appendChild(link);
+        }
     });
 }
 
